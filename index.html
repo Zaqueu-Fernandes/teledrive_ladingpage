@@ -1,545 +1,938 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>TeleDrive_Zak — Armazenamento Ilimitado para seus Documentos</title>
-<meta name="description" content="Transforme seu Telegram em um drive ilimitado de PDFs e mídias. Sem mensalidade por GB. Sem limite de espaço." />
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#0a1628; --bg2:#0d1d36; --surface:#10213c; --surface2:#152a4a;
-  --border:#1e3a5f; --text:#f0f4f8; --text2:#a8b8cc; --text3:#6b8099;
-  --accent:#2AABEE; --accent2:#5dc1f5; --green:#16a34a; --green2:#22c55e;
-  --radius:14px;
-}
-*{margin:0;padding:0;box-sizing:border-box;}
-html{scroll-behavior:smooth;}
-body{
-  background:var(--bg); color:var(--text);
-  font-family:'Inter',sans-serif; line-height:1.6;
-  overflow-x:hidden;
-}
-h1,h2,h3,.display{font-family:'Space Grotesk',sans-serif;}
-a{color:inherit;text-decoration:none;}
-.container{max-width:1100px;margin:0 auto;padding:0 24px;}
-
-/* ── NAV ─────────────────────────────────────────────────── */
-nav{
-  position:fixed;top:0;left:0;right:0;z-index:100;
-  background:rgba(10,22,40,.85); backdrop-filter:blur(12px);
-  border-bottom:1px solid var(--border);
-}
-.nav-inner{
-  max-width:1100px;margin:0 auto;padding:16px 24px;
-  display:flex;align-items:center;justify-content:space-between;
-}
-.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:18px;}
-.logo-icon{
-  width:36px;height:36px;border-radius:10px;
-  background:linear-gradient(135deg,var(--accent),#1a8cc8);
-  display:flex;align-items:center;justify-content:center;font-size:18px;
-  box-shadow:0 4px 14px rgba(42,171,238,.4);
-}
-.nav-cta{
-  background:var(--accent); color:#fff; padding:10px 22px;
-  border-radius:8px; font-weight:600; font-size:14px;
-  transition:transform .15s, box-shadow .15s;
-}
-.nav-cta:hover{transform:translateY(-1px);box-shadow:0 6px 18px rgba(42,171,238,.4);}
-
-/* ── HERO ────────────────────────────────────────────────── */
-.hero{
-  padding:160px 24px 100px;
-  position:relative; overflow:hidden;
-  background:
-    radial-gradient(ellipse 800px 500px at 80% -10%, rgba(42,171,238,.15), transparent),
-    radial-gradient(ellipse 600px 400px at 10% 110%, rgba(22,163,74,.08), transparent);
-}
-.hero-inner{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1.1fr .9fr;gap:60px;align-items:center;}
-.eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
-  background:var(--surface);border:1px solid var(--border);
-  padding:6px 14px;border-radius:30px;font-size:13px;color:var(--accent2);
-  font-weight:600;margin-bottom:24px;
-}
-.eyebrow .dot{width:6px;height:6px;border-radius:50%;background:var(--green2);box-shadow:0 0 8px var(--green2);}
-.hero h1{
-  font-size:clamp(34px,5vw,54px); font-weight:700; line-height:1.08;
-  letter-spacing:-.02em; margin-bottom:20px;
-}
-.hero h1 .grad{
-  background:linear-gradient(135deg,var(--accent2),var(--green2));
-  -webkit-background-clip:text; background-clip:text; color:transparent;
-}
-.hero p{font-size:17px;color:var(--text2);max-width:480px;margin-bottom:32px;}
-.hero-ctas{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:28px;}
-.btn-primary{
-  background:linear-gradient(135deg,var(--green2),var(--green));
-  color:#fff;padding:15px 30px;border-radius:10px;font-weight:700;font-size:15.5px;
-  box-shadow:0 8px 24px rgba(22,163,74,.35);
-  transition:transform .15s, box-shadow .15s; display:inline-flex;align-items:center;gap:8px;
-}
-.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(22,163,74,.45);}
-.btn-ghost{
-  border:1.5px solid var(--border); color:var(--text);
-  padding:15px 26px;border-radius:10px;font-weight:600;font-size:15px;
-  transition:border-color .15s, background .15s;
-}
-.btn-ghost:hover{border-color:var(--accent);background:var(--surface);}
-.hero-trust{display:flex;gap:20px;flex-wrap:wrap;font-size:13px;color:var(--text3);}
-.hero-trust span{display:flex;align-items:center;gap:6px;}
-
-/* ── HERO VISUAL: arquivos voando para nuvem ──────────────── */
-.hero-visual{position:relative;height:420px;}
-.hv-cloud{
-  position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
-  width:260px;height:260px;border-radius:50%;
-  background:radial-gradient(circle at 35% 30%, rgba(42,171,238,.35), rgba(42,171,238,.06) 70%);
-  border:1px solid rgba(42,171,238,.3);
-  display:flex;align-items:center;justify-content:center;
-  animation:pulse-cloud 4s ease-in-out infinite;
-}
-.hv-cloud-inner{
-  font-size:54px; filter:drop-shadow(0 0 30px rgba(42,171,238,.6));
-}
-@keyframes pulse-cloud{0%,100%{box-shadow:0 0 0 0 rgba(42,171,238,.15)}50%{box-shadow:0 0 0 30px rgba(42,171,238,0)}}
-.hv-file{
-  position:absolute; width:46px;height:58px;
-  background:var(--surface2); border:1.5px solid var(--border);
-  border-radius:6px; display:flex;align-items:center;justify-content:center;
-  font-size:18px; opacity:0;
-  animation:fly-in 3.5s ease-in infinite;
-}
-.hv-file:nth-child(2){top:8%;left:5%;animation-delay:0s;}
-.hv-file:nth-child(3){top:65%;left:0%;animation-delay:.7s;}
-.hv-file:nth-child(4){top:15%;right:2%;animation-delay:1.4s;}
-.hv-file:nth-child(5){top:75%;right:8%;animation-delay:2.1s;}
-.hv-file:nth-child(6){top:42%;left:-4%;animation-delay:2.8s;}
-@keyframes fly-in{
-  0%{opacity:0;transform:translate(0,0) scale(1);}
-  10%{opacity:1;}
-  75%{opacity:1;}
-  100%{opacity:0;transform:translate(var(--tx,140px),var(--ty,40px)) scale(.3);}
-}
-.hv-file:nth-child(2){--tx:160px;--ty:60px;}
-.hv-file:nth-child(3){--tx:200px;--ty:-40px;}
-.hv-file:nth-child(4){--tx:-150px;--ty:80px;}
-.hv-file:nth-child(5){--tx:-190px;--ty:-60px;}
-.hv-file:nth-child(6){--tx:180px;--ty:0px;}
-
-@media(prefers-reduced-motion:reduce){
-  .hv-file, .hv-cloud{animation:none !important;opacity:1 !important;}
-}
-
-/* ── SECTION GENERIC ───────────────────────────────────────── */
-section{padding:90px 24px;}
-.section-head{text-align:center;max-width:620px;margin:0 auto 56px;}
-.section-eyebrow{color:var(--accent2);font-weight:700;font-size:13px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px;}
-.section-head h2{font-size:clamp(26px,3.5vw,38px);font-weight:700;letter-spacing:-.01em;margin-bottom:14px;}
-.section-head p{color:var(--text2);font-size:16px;}
-
-/* ── PROBLEM / SOLUTION ────────────────────────────────────── */
-.compare{display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:900px;margin:0 auto;}
-.compare-card{
-  background:var(--surface);border:1px solid var(--border);border-radius:var(--radius);
-  padding:32px;
-}
-.compare-card.bad{border-color:#3a1e1e;}
-.compare-card h3{font-size:18px;margin-bottom:18px;display:flex;align-items:center;gap:8px;}
-.compare-list{list-style:none;display:flex;flex-direction:column;gap:12px;}
-.compare-list li{display:flex;gap:10px;font-size:14.5px;color:var(--text2);align-items:flex-start;}
-.bad .compare-list li::before{content:'✕';color:#ef4444;font-weight:700;flex-shrink:0;}
-.good .compare-list li::before{content:'✓';color:var(--green2);font-weight:700;flex-shrink:0;}
-.good{border-color:rgba(22,163,74,.3);background:linear-gradient(135deg, rgba(22,163,74,.06), var(--surface));}
-
-/* ── FEATURES ──────────────────────────────────────────────── */
-.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;}
-.feature-card{
-  background:var(--surface); border:1px solid var(--border); border-radius:var(--radius);
-  padding:28px; transition:transform .2s, border-color .2s;
-}
-.feature-card:hover{transform:translateY(-4px);border-color:var(--accent);}
-.feature-icon{
-  width:48px;height:48px;border-radius:12px;
-  background:rgba(42,171,238,.12); display:flex;align-items:center;justify-content:center;
-  font-size:22px;margin-bottom:18px;
-}
-.feature-card h3{font-size:17px;margin-bottom:8px;}
-.feature-card p{font-size:14px;color:var(--text2);}
-
-/* ── DEMO: contador infinito ───────────────────────────────── */
-.demo-section{
-  background:var(--bg2); border-top:1px solid var(--border); border-bottom:1px solid var(--border);
-}
-.demo-box{
-  max-width:560px;margin:0 auto;background:var(--surface);
-  border:1px solid var(--border);border-radius:var(--radius);
-  padding:40px;text-align:center;
-}
-.demo-counter{
-  font-family:'Space Grotesk',sans-serif; font-size:clamp(40px,7vw,64px);
-  font-weight:700; color:var(--green2); margin:16px 0 8px;
-  font-variant-numeric:tabular-nums;
-}
-.demo-label{color:var(--text3);font-size:13px;text-transform:uppercase;letter-spacing:.08em;font-weight:600;}
-.demo-bar{
-  height:8px;background:var(--surface2);border-radius:4px;overflow:hidden;margin-top:24px;
-}
-.demo-bar-fill{
-  height:100%;width:8%;border-radius:4px;
-  background:linear-gradient(90deg,var(--green),var(--green2),var(--accent));
-  animation:fill-grow 6s ease-in-out infinite;
-}
-@keyframes fill-grow{0%{width:5%}50%{width:96%}100%{width:5%}}
-.demo-note{margin-top:18px;font-size:13px;color:var(--text3);}
-
-/* ── PLANOS ────────────────────────────────────────────────── */
-.plans-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;max-width:980px;margin:0 auto;}
-.plan-card{
-  background:var(--surface);border:1.5px solid var(--border);border-radius:var(--radius);
-  padding:32px 28px; position:relative; transition:transform .2s, border-color .2s;
-}
-.plan-card:hover{transform:translateY(-4px);}
-.plan-card.featured{border-color:var(--accent);box-shadow:0 0 0 3px rgba(42,171,238,.12);}
-.plan-badge{
-  position:absolute;top:-13px;left:50%;transform:translateX(-50%);
-  background:var(--accent);color:#fff;font-size:11px;font-weight:700;
-  padding:4px 14px;border-radius:20px;white-space:nowrap;
-}
-.plan-icon{font-size:36px;margin-bottom:10px;}
-.plan-name{font-size:17px;font-weight:700;margin-bottom:6px;}
-.plan-price{font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;margin-bottom:4px;}
-.plan-price span{font-size:14px;font-weight:400;color:var(--text3);}
-.plan-sub{font-size:13px;color:var(--green2);margin-bottom:22px;font-weight:600;}
-.plan-list{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:26px;}
-.plan-list li{font-size:13.5px;color:var(--text2);display:flex;gap:8px;align-items:flex-start;}
-.plan-list li::before{content:'✓';color:var(--green2);font-weight:700;flex-shrink:0;}
-.plan-btn{
-  display:block;text-align:center;width:100%;padding:13px;border-radius:9px;
-  font-weight:700;font-size:14.5px;transition:opacity .15s;
-  background:var(--surface2);border:1.5px solid var(--border);color:var(--text);
-}
-.plan-card.featured .plan-btn{background:var(--accent);border-color:var(--accent);color:#fff;}
-.plan-btn:hover{opacity:.85;}
-
-/* ── HOW IT WORKS ──────────────────────────────────────────── */
-.steps{max-width:760px;margin:0 auto;display:flex;flex-direction:column;gap:0;}
-.step{display:flex;gap:24px;padding:28px 0;border-bottom:1px solid var(--border);}
-.step:last-child{border-bottom:none;}
-.step-num{
-  font-family:'Space Grotesk',sans-serif;font-size:14px;font-weight:700;color:var(--accent2);
-  width:38px;height:38px;border-radius:50%;border:1.5px solid var(--accent2);
-  display:flex;align-items:center;justify-content:center;flex-shrink:0;
-}
-.step h3{font-size:17px;margin-bottom:6px;}
-.step p{font-size:14.5px;color:var(--text2);}
-
-/* ── FAQ ───────────────────────────────────────────────────── */
-.faq-list{max-width:740px;margin:0 auto;display:flex;flex-direction:column;gap:12px;}
-.faq-item{background:var(--surface);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
-.faq-q{padding:20px 24px;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:15px;}
-.faq-q .chev{transition:transform .2s;color:var(--accent2);}
-.faq-item.open .faq-q .chev{transform:rotate(180deg);}
-.faq-a{max-height:0;overflow:hidden;transition:max-height .25s ease, padding .25s ease;padding:0 24px;}
-.faq-item.open .faq-a{max-height:200px;padding:0 24px 20px;}
-.faq-a p{color:var(--text2);font-size:14px;}
-
-/* ── FINAL CTA ─────────────────────────────────────────────── */
-.final-cta{
-  text-align:center; background:linear-gradient(135deg, rgba(22,163,74,.1), rgba(42,171,238,.08));
-  border-top:1px solid var(--border);
-}
-.final-cta h2{font-size:clamp(26px,4vw,40px);margin-bottom:16px;}
-.final-cta p{color:var(--text2);margin-bottom:32px;font-size:16px;}
-
-/* ── FOOTER ────────────────────────────────────────────────── */
-footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
-.footer-content{display:flex;flex-direction:column;align-items:center;gap:10px;font-size:13px;color:var(--text3);}
-.footer-wa{display:inline-flex;align-items:center;gap:6px;color:var(--green2);font-weight:600;}
-.wa-icon{width:16px;height:16px;fill:var(--green2);}
-
-/* ── RESPONSIVE ────────────────────────────────────────────── */
-@media(max-width:860px){
-  .hero-inner{grid-template-columns:1fr;}
-  .hero-visual{height:260px;order:-1;}
-  .compare{grid-template-columns:1fr;}
-  .features-grid{grid-template-columns:1fr;}
-  .plans-grid{grid-template-columns:1fr;max-width:380px;}
-  .nav-cta{padding:8px 16px;font-size:13px;}
-}
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#2AABEE" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-title" content="TeleDrive" />
+  <title>TeleDrive</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="apple-touch-icon" href="/icons/icon-192.png" />
+  <link rel="icon" type="image/png" sizes="192x192" href="/icons/icon-192.png" />
+  <link rel="stylesheet" href="/css/style.css" />
 </head>
 <body>
 
-<nav>
-  <div class="nav-inner">
-    <div class="logo">
-      <div class="logo-icon">✈️</div>
-      TeleDrive_Zak
+<!-- ── LOGIN ──────────────────────────────────────────────────── -->
+<div id="page-login" class="login-page" style="display:none;">
+  <div class="login-box">
+    <div class="login-logo">
+      <div class="logo-icon"><img src="/Logo.png" alt="TeleDrive" style="width:44px;height:44px;object-fit:contain;" /></div>
+      <h1>TeleDrive</h1>
+      <p>Gerenciamento de PDFs via Telegram</p>
     </div>
-    <a href="https://telegdrive.vercel.app/?signup=true" class="nav-cta">Começar agora</a>
-  </div>
-</nav>
 
-<!-- HERO -->
-<header class="hero">
-  <div class="hero-inner">
+    <!-- Login form -->
+    <div id="auth-login-section">
+      <label>E-mail</label>
+      <input type="email" id="login-email" placeholder="seu@email.com" autocomplete="email" />
+      <label>Senha</label>
+      <input type="password" id="login-pass" placeholder="••••••••" autocomplete="current-password" />
+      <button class="btn-login" id="btn-login" onclick="doLogin()">Entrar</button>
+    </div>
+
+    <!-- Signup form -->
+    <div id="auth-signup-section" style="display:none;">
+      <label>E-mail</label>
+      <input type="email" id="signup-email" placeholder="seu@email.com" autocomplete="email" />
+      <label>Senha</label>
+      <input type="password" id="signup-pass" placeholder="••••••••" autocomplete="new-password" />
+      <label>Confirmar senha</label>
+      <input type="password" id="signup-pass2" placeholder="••••••••" autocomplete="new-password" />
+      <button class="btn-login" id="btn-signup" onclick="doSignup()">Cadastrar</button>
+    </div>
+
+    <div class="login-error" id="login-error"></div>
+    <div style="text-align:center;margin-top:16px;">
+      <span id="auth-toggle-text" onclick="toggleAuthMode()"
+        style="font-size:13px;color:#2AABEE;cursor:pointer;text-decoration:underline;">
+        Não tem conta? Cadastrar
+      </span>
+    </div>
+  </div>
+  <footer class="login-footer">
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
+
+<!-- ── DRIVE ───────────────────────────────────────────────────── -->
+<div id="page-drive" class="app-layout" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-logo"><img src="/Logo.png" alt="TeleDrive" style="width:26px;height:26px;object-fit:contain;" /></div>
     <div>
-      <div class="eyebrow"><span class="dot"></span> Armazenamento que nunca enche</div>
-      <h1>Seus PDFs e mídias com <span class="grad">espaço infinito</span>, hospedados no seu Telegram</h1>
-      <p>Pare de pagar por GB. O TeleDrive_Zak transforma seu próprio Telegram em um drive profissional — organizado em pastas, com galeria de mídias e acesso de qualquer lugar.</p>
-      <div class="hero-ctas">
-        <a href="https://telegdrive.vercel.app/?signup=true" class="btn-primary">
-          🚀 Quero Armazenamento Ilimitado
+      <div class="topbar-title">TeleDrive</div>
+      <div class="topbar-sub" id="topbar-channel"></div>
+    </div>
+    <div class="section-tabs">
+      <button class="section-tab active" id="tab-docs" onclick="switchSection('docs')">📄 Documentos</button>
+      <button class="section-tab" id="tab-media" onclick="switchSection('media')">🖼️ Mídias</button>
+    </div>
+    <div class="topbar-right">
+      <span class="topbar-user" id="topbar-email"></span>
+      <span class="topbar-badge" id="topbar-badge"></span>
+      <button class="btn-topbar" id="btn-change-channel" onclick="changeChannel()">🔄 <span class="btn-text">Mudar Canal</span></button>
+      <button class="btn-topbar" id="btn-instructions" onclick="showInstructions()">📚 <span class="btn-text">Instruções</span></button>
+      <button class="btn-topbar" id="btn-minha-assinatura" onclick="showMinhaAssinatura()" style="display:none;">💳 <span class="btn-text">Assinatura</span></button>
+      <button class="btn-topbar" id="btn-admin-panel" onclick="showAdmin()" style="display:none;">⚙️ <span class="btn-text">Admin</span></button>
+      <button class="btn-topbar" onclick="doLogout()">🚪 <span class="btn-text">Sair</span></button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="install-banner" id="install-banner">
+      <span>📲 Instale o app no seu dispositivo</span>
+      <button onclick="installApp()">Instalar</button>
+    </div>
+
+    <!-- Setup panel (fora das seções — aparece antes de conectar) -->
+    <div id="setup-panel" style="display:none;">
+
+      <!-- Tela: aguardando configuração pelo admin (shared sem canal vinculado) -->
+      <div id="awaiting-setup-card" class="card" style="display:none;text-align:center;padding:2.5rem 1.5rem;">
+        <div style="font-size:48px;margin-bottom:16px;">⏳</div>
+        <h2 style="font-size:18px;margin-bottom:10px;">Seu acesso está sendo configurado</h2>
+        <p style="font-size:14px;color:var(--text2);max-width:380px;margin:0 auto 22px;line-height:1.6;">
+          Nossa equipe está preparando seu ambiente no Telegram. Você receberá acesso assim que a configuração for concluída.
+        </p>
+        <a href="https://wa.me/5588994014262" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:8px;background:#22c55e;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
+          <svg style="width:18px;height:18px;fill:white;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+          Falar com Suporte
         </a>
-        <a href="#planos" class="btn-ghost">Ver planos</a>
       </div>
-      <div class="hero-trust">
-        <span>✅ Sem limite de espaço</span>
-        <span>✅ PIX ou Cartão</span>
-        <span>✅ Ativação em minutos</span>
+
+      <!-- Card de conexão (admin / individual / shared com canais disponíveis) -->
+      <div id="connect-card" class="card">
+        <div class="card-title">🔌 Conectar ao Telegram</div>
+
+        <!-- Seletor de canais salvos (visualizadores/individual com vários canais) -->
+        <div class="cred-select-wrap" id="cred-select-wrap" style="display:none;">
+          <label style="display:block;font-size:13px;font-weight:500;color:var(--text2);margin-bottom:6px;">Selecione o canal</label>
+          <select id="cred-select" onchange="onCredSelect()">
+            <option value="">— Selecionar canal —</option>
+          </select>
+          <button class="btn-login" id="btn-connect-shared" onclick="connectSelectedShared()" style="margin-top:12px;">Conectar</button>
+        </div>
+
+        <!-- Campos manuais (só admin e individual veem) -->
+        <div id="manual-fields" style="display:none;">
+          <div class="setup-or" id="setup-or-text">ou insira manualmente</div>
+          <label>URL do Cloudflare Worker</label>
+          <input type="text" id="proxy" placeholder="https://meu-worker.usuario.workers.dev" autocomplete="off" autocorrect="off" autocapitalize="none" spellcheck="false" />
+          <label>Bot Token</label>
+          <input type="password" id="token" placeholder="123456:ABC-DEF..." autocomplete="off" />
+          <label>Chat ID</label>
+          <input type="text" id="chatid" placeholder="-1001234567890" autocomplete="off" autocorrect="off" autocapitalize="none" />
+          <button class="btn-login" id="btn-connect" onclick="connect()" style="margin-top:4px;">Conectar</button>
+        </div>
+
+        <div class="status" id="conn-status"></div>
+
+        <!-- Botão Novo Canal (não exibido no modelo de setup assistido) -->
+        <div id="btn-new-channel-wrap" style="display:none; margin-top:12px;">
+          <button class="tbtn tbtn-gray" style="width:100%;" onclick="openNewChannelModal()">➕ Cadastrar Novo Canal</button>
+        </div>
       </div>
+
+
     </div>
-    <div class="hero-visual">
-      <div class="hv-cloud"><div class="hv-cloud-inner">✈️</div></div>
-      <div class="hv-file">📄</div>
-      <div class="hv-file">🖼️</div>
-      <div class="hv-file">📄</div>
-      <div class="hv-file">🎬</div>
-      <div class="hv-file">📄</div>
+
+    <!-- Drive panel (após conectar) -->
+    <div id="drive-panel" style="display:none;">
+
+      <!-- Seção: Documentos -->
+      <div id="section-docs" class="media-section active">
+        <div class="stats">
+          <div class="stat"><div class="stat-icon">📄</div><div class="stat-num" id="s-files">0</div><div class="stat-lbl">PDFs</div></div>
+          <div class="stat"><div class="stat-num" id="s-folders">0</div><div class="stat-lbl">Pastas</div></div>
+          <div class="stat"><div class="stat-num" id="s-size">0 MB</div><div class="stat-lbl">Total</div></div>
+        </div>
+        <div class="sync-bar">
+          <div class="sync-dot" id="sync-dot"></div>
+          <span id="sync-label">Pronto</span>
+          <button class="tbtn tbtn-green" style="margin-left:auto;" onclick="syncNow()">🔄 Sincronizar</button>
+        </div>
+        <div class="breadcrumb" id="breadcrumb"></div>
+        <div class="toolbar">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="search" placeholder="Buscar PDFs..." oninput="render()" />
+          </div>
+          <button class="tbtn tbtn-gray" id="btn-new-folder" onclick="openNewFolder()" style="display:none;">
+            📁 <span class="label">Nova pasta</span>
+          </button>
+          <button class="tbtn tbtn-primary" id="btn-upload" onclick="document.getElementById('fi').click()" style="display:none;">
+            ⬆ <span class="label">Enviar PDF</span>
+          </button>
+          <input type="file" accept=".pdf,application/pdf" multiple id="fi" style="display:none" onchange="uploadFiles(this.files)" />
+        </div>
+        <div class="upload-path" id="upload-path"></div>
+        <div class="file-list">
+          <div class="uploading" id="uploading">
+            <div class="spin"></div>
+            <span id="uploading-name">Enviando...</span>
+          </div>
+          <div class="fh"><span>Nome</span><span>Data</span><span>Tamanho</span><span>Ações</span></div>
+          <div id="files-body"></div>
+        </div>
+        <div style="text-align:right;margin-top:12px;">
+          <span class="disconnect" onclick="disconnectDrive()">Desconectar</span>
+        </div>
+      </div><!-- /section-docs -->
+
+      <!-- Seção: Mídias -->
+      <div id="section-media" class="media-section">
+        <div class="stats" style="grid-template-columns:1fr 1fr;">
+          <div class="stat"><div class="stat-icon">🖼️</div><div class="stat-num" id="s-media-files">0</div><div class="stat-lbl">Mídias</div></div>
+          <div class="stat"><div class="stat-icon">🗂️</div><div class="stat-num" id="s-media-albums">0</div><div class="stat-lbl">Álbuns</div></div>
+        </div>
+        <div class="sync-bar">
+          <div class="sync-dot done"></div>
+          <span>Galeria de fotos e vídeos</span>
+          <button class="tbtn tbtn-green" style="margin-left:auto;" onclick="Media.sync()">🔄 Sincronizar</button>
+        </div>
+        <div class="breadcrumb" id="album-breadcrumb"></div>
+        <div class="media-toolbar">
+          <div class="search-wrap">
+            <span class="search-icon">🔍</span>
+            <input type="text" id="media-search" placeholder="Buscar mídias..." oninput="Media.renderGallery()" />
+          </div>
+          <button class="tbtn tbtn-gray" id="btn-new-album" onclick="Media.openNewAlbum()" style="display:none;">
+            🗂️ <span class="label">Novo álbum</span>
+          </button>
+          <button class="tbtn tbtn-primary" id="btn-upload-media" onclick="document.getElementById('media-fi').click()" style="display:none;">
+            ⬆ <span class="label">Enviar mídia</span>
+          </button>
+          <input type="file" accept="image/*,video/*" multiple id="media-fi" style="display:none" onchange="Media.uploadMedia(this.files)" />
+        </div>
+        <div class="upload-path" id="album-upload-path"></div>
+        <div class="media-uploading" id="media-uploading">
+          <div class="spin"></div>
+          <span id="media-uploading-name">Enviando...</span>
+        </div>
+        <div class="media-grid" id="media-grid"></div>
+      </div><!-- /section-media -->
+
+    </div><!-- /drive-panel -->
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
+
+<!-- ── ADMIN ───────────────────────────────────────────────────── -->
+<div id="page-admin" class="app-layout" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-logo">⚙️</div>
+    <div><div class="topbar-title">TeleDrive</div><div class="topbar-sub">Painel Admin</div></div>
+    <div class="topbar-right">
+      <button class="btn-topbar" onclick="closeAdmin()">← Voltar</button>
+      <button class="btn-topbar" onclick="doLogout()">Sair</button>
+    </div>
+  </header>
+  <main class="main">
+    <div class="card">
+      <div class="admin-tabs">
+        <button class="admin-tab active" data-tab="credentials" onclick="switchAdminTab('credentials')">🔑 Configurações</button>
+        <button class="admin-tab" data-tab="users" onclick="switchAdminTab('users')">👥 Usuários</button>
+        <button class="admin-tab" data-tab="payments" onclick="switchAdminTab('payments')">💳 Pagamentos</button>
+        <button class="admin-tab" data-tab="instructions" onclick="switchAdminTab('instructions')">📚 Instruções</button>
+      </div>
+
+      <div id="tab-credentials" class="admin-tab-content active">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="card-title" style="margin:0;">Configurações de Conexão</div>
+          <button class="tbtn tbtn-primary" onclick="newCred()">➕ Nova</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Nome</th><th>Worker URL</th><th>Token</th><th>Chat ID</th><th>Ações</th></tr></thead>
+            <tbody id="creds-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tab-users" class="admin-tab-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="card-title" style="margin:0;">Gerenciar Usuários</div>
+          <button class="tbtn tbtn-primary" onclick="showNewUserModal()">➕ Novo usuário</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>E-mail</th><th>Plano</th><th>Tipo</th><th>Status</th><th>Vencimento</th><th>Ações</th></tr></thead>
+            <tbody id="users-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab Pagamentos -->
+      <div id="tab-payments" class="admin-tab-content">
+
+        <!-- Config Asaas -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="card-title">⚙️ Configuração Asaas</div>
+          <div class="form-row">
+            <div>
+              <label>Ambiente</label>
+              <select id="asaas-env">
+                <option value="sandbox">Sandbox (testes)</option>
+                <option value="production">Produção</option>
+              </select>
+            </div>
+            <div>
+              <label>API Key</label>
+              <input type="password" id="asaas-key" placeholder="$aas_..." autocomplete="off" />
+            </div>
+          </div>
+          <button class="tbtn tbtn-primary" onclick="saveAsaasConfig()" style="margin-top:4px;">💾 Salvar configuração</button>
+        </div>
+
+        <!-- Planos -->
+        <div class="card" style="margin-bottom:1rem;">
+          <div class="card-title">📋 Planos Disponíveis</div>
+          <div class="stats" style="grid-template-columns:repeat(3,1fr);">
+            <div class="stat" style="border-top:3px solid #64748b;">
+              <div class="stat-icon">🥉</div>
+              <div class="stat-num" style="font-size:18px;color:#64748b;">Básico</div>
+              <div style="font-size:22px;font-weight:800;color:var(--text);margin:6px 0;">R$ 29,90</div>
+              <div class="stat-lbl">1 canal • Armazenamento ilimitado</div>
+            </div>
+            <div class="stat" style="border-top:3px solid #2563eb;">
+              <div class="stat-icon">🥈</div>
+              <div class="stat-num" style="font-size:18px;color:#2563eb;">Profissional</div>
+              <div style="font-size:22px;font-weight:800;color:var(--text);margin:6px 0;">R$ 49,90</div>
+              <div class="stat-lbl">3 canais • Armazenamento ilimitado</div>
+            </div>
+            <div class="stat" style="border-top:3px solid #7c3aed;">
+              <div class="stat-icon">🥇</div>
+              <div class="stat-num" style="font-size:18px;color:#7c3aed;">Premium</div>
+              <div style="font-size:22px;font-weight:800;color:var(--text);margin:6px 0;">R$ 99,90</div>
+              <div class="stat-lbl">Canais ilimitados • Armazenamento ilimitado</div>
+            </div>
+          </div>
+          <p style="font-size:12px;color:var(--text3);margin-top:8px;text-align:center;">
+            * Armazenamento hospedado no Telegram — ilimitado em todos os planos
+          </p>
+        </div>
+
+        <!-- Cobranças -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="card-title" style="margin:0;">💰 Cobranças</div>
+          <button class="tbtn tbtn-primary" onclick="openNewPayment()">➕ Nova cobrança</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Usuário</th><th>Plano</th><th>Valor</th><th>Forma</th><th>Status</th><th>Vencimento</th><th>Ações</th></tr></thead>
+            <tbody id="payments-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Tab Instruções -->
+      <div id="tab-instructions" class="admin-tab-content">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:1rem;">
+          <div class="card-title" style="margin:0;">Materiais de Instrução</div>
+          <button class="tbtn tbtn-primary" onclick="openNewInstruction()">➕ Novo material</button>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th>Título</th><th>Tipo</th><th>Ordem</th><th>Ações</th></tr></thead>
+            <tbody id="instructions-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
+
+<!-- MODAIS -->
+<div class="overlay" id="modal-folder" onclick="if(event.target===this)closeModal('modal-folder')">
+  <div class="modal"><h2>📁 Nova pasta</h2><label>Nome</label>
+    <input type="text" id="folder-name" placeholder="Ex: Contratos" onkeydown="if(event.key==='Enter')confirmFolder()" />
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-folder')">Cancelar</button><button class="btn-confirm" onclick="confirmFolder()">Criar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-rename" onclick="if(event.target===this)closeModal('modal-rename')">
+  <div class="modal"><h2 id="rename-title">✏️ Renomear</h2><label>Novo nome</label>
+    <input type="text" id="rename-input" onkeydown="if(event.key==='Enter')confirmRename()" />
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-rename')">Cancelar</button><button class="btn-confirm" onclick="confirmRename()">Salvar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-move" onclick="if(event.target===this)closeModal('modal-move')">
+  <div class="modal"><h2>📂 Mover para...</h2><label>Destino</label>
+    <select id="move-select"></select>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-move')">Cancelar</button><button class="btn-confirm" onclick="confirmMove()">Mover</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-delete" onclick="if(event.target===this)closeModal('modal-delete')">
+  <div class="modal"><h2>🗑 Confirmar exclusão</h2>
+    <p><strong id="del-name"></strong></p><p id="del-desc"></p>
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-delete')">Cancelar</button><button class="btn-danger" onclick="confirmDelete()">Excluir</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-cred" onclick="if(event.target===this)closeModal('modal-cred')">
+  <div class="modal"><h2 id="cred-form-title">➕ Nova configuração</h2>
+    <label>Nome</label><input type="text" id="cred-name" placeholder="Ex: Canal Principal" />
+    <label>Worker URL</label><input type="text" id="cred-proxy" placeholder="https://..." autocorrect="off" autocapitalize="none" />
+    <label>Bot Token</label><input type="text" id="cred-token" placeholder="123456:ABC..." autocorrect="off" autocapitalize="none" />
+    <label>Chat ID</label><input type="text" id="cred-chat" placeholder="-1001234567890" autocorrect="off" autocapitalize="none" />
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-cred')">Cancelar</button><button class="btn-confirm" onclick="saveCred()">Salvar</button></div>
+  </div>
+</div>
+
+<div class="overlay" id="modal-new-user" onclick="if(event.target===this)closeModal('modal-new-user')">
+  <div class="modal"><h2>👤 Novo usuário</h2>
+    <label>Tipo de acesso</label>
+    <select id="new-user-type">
+      <option value="shared">Compartilhado (vê arquivos do admin)</option>
+      <option value="individual">Individual (ambiente próprio)</option>
+    </select>
+    <label>E-mail</label><input type="email" id="new-user-email" placeholder="usuario@email.com" />
+    <label>Senha inicial</label><input type="password" id="new-user-pass" placeholder="Mínimo 6 caracteres" />
+    <div class="modal-btns"><button class="btn-cancel" onclick="closeModal('modal-new-user')">Cancelar</button><button class="btn-confirm" onclick="createUser()">Criar</button></div>
+  </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" class="lightbox"
+  ontouchstart="Media.onTouchStart(event)"
+  ontouchend="Media.onTouchEnd(event)">
+  <div class="lightbox-header">
+    <span class="lightbox-name" id="lightbox-name"></span>
+    <span class="lightbox-counter" id="lightbox-counter"></span>
+    <button class="lightbox-close" onclick="Media.closeLightbox()">✕</button>
+  </div>
+  <div class="lightbox-body" id="lightbox-content"></div>
+  <button class="lb-nav" id="lb-prev" onclick="Media.lightboxPrev()">‹</button>
+  <button class="lb-nav" id="lb-next" onclick="Media.lightboxNext()">›</button>
+</div>
+
+<!-- Modal: novo álbum -->
+<div class="overlay" id="modal-album" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <h2>🗂️ Novo álbum</h2>
+    <label>Nome do álbum</label>
+    <input type="text" id="album-name-input" placeholder="Ex: Viagem 2026"
+      onkeydown="if(event.key==='Enter')Media.confirmNewAlbum()" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="document.getElementById('modal-album').classList.remove('open')">Cancelar</button>
+      <button class="btn-confirm" onclick="Media.confirmNewAlbum()">Criar</button>
     </div>
   </div>
-</header>
+</div>
 
-<!-- PROBLEMA x SOLUÇÃO -->
-<section>
-  <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">O problema</div>
-      <h2>Armazenamento em nuvem tradicional fica caro rápido</h2>
-      <p>Você paga por gigabyte, mesmo gigabytes que talvez nunca use.</p>
-    </div>
-    <div class="compare">
-      <div class="compare-card bad">
-        <h3>☁️ Nuvem tradicional</h3>
-        <ul class="compare-list">
-          <li>Mensalidade cresce conforme seus arquivos</li>
-          <li>Limite de espaço, mesmo nos planos pagos</li>
-          <li>Cobrança extra por cada GB adicional</li>
-          <li>Você nunca é dono real da infraestrutura</li>
-        </ul>
-      </div>
-      <div class="compare-card good">
-        <h3>✈️ TeleDrive_Zak</h3>
-        <ul class="compare-list">
-          <li>Mensalidade fixa, independente do volume</li>
-          <li>Armazenamento sem limite, em todos os planos</li>
-          <li>Telegram já é gratuito e ilimitado</li>
-          <li>Seu canal, seus dados, sua titularidade</li>
-        </ul>
-      </div>
+<!-- Modal: renomear mídia/álbum -->
+<div class="overlay" id="modal-media-rename" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <h2>✏️ Renomear</h2>
+    <label>Novo nome</label>
+    <input type="text" id="media-rename-input"
+      onkeydown="if(event.key==='Enter')Media.confirmRename()" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="document.getElementById('modal-media-rename').classList.remove('open')">Cancelar</button>
+      <button class="btn-confirm" onclick="Media.confirmRename()">Salvar</button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- DEMO CONTADOR -->
-<section class="demo-section">
-  <div class="container">
-    <div class="demo-box">
-      <div class="demo-label">Espaço usado no seu plano</div>
-      <div class="demo-counter">∞</div>
-      <div class="demo-bar"><div class="demo-bar-fill"></div></div>
-      <div class="demo-note">Não importa quantos arquivos você envie — sempre vai caber mais um.</div>
+<!-- Modal: excluir mídia/álbum -->
+<div class="overlay" id="modal-media-delete" onclick="if(event.target===this)this.classList.remove('open')">
+  <div class="modal">
+    <h2>🗑 Confirmar exclusão</h2>
+    <p><strong id="media-del-name"></strong></p>
+    <p id="media-del-desc"></p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="document.getElementById('modal-media-delete').classList.remove('open')">Cancelar</button>
+      <button class="btn-danger" onclick="Media.confirmDelete()">Excluir</button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FEATURES -->
-<section>
-  <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">O que você ganha</div>
-      <h2>Tudo que um drive profissional precisa ter</h2>
-    </div>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">📁</div>
-        <h3>Pastas e subpastas</h3>
-        <p>Organize seus PDFs como quiser, com renomear, mover e excluir a qualquer momento.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🖼️</div>
-        <h3>Galeria de mídias</h3>
-        <p>Fotos e vídeos em álbuns separados, com visualização em tela cheia e navegação por setas.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📲</div>
-        <h3>App instalável (PWA)</h3>
-        <p>Instale no celular ou computador como um aplicativo nativo, sem precisar de loja de apps.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔒</div>
-        <h3>Seus dados, sua titularidade</h3>
-        <p>Tudo fica no seu próprio canal do Telegram — você é o dono real da infraestrutura.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>Acesso compartilhado</h3>
-        <p>Convide sua equipe para visualizar arquivos, com controle total de quem pode editar.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Setup assistido</h3>
-        <p>Nós cuidamos de toda a configuração técnica para você — basta criar o canal e nos adicionar.</p>
-      </div>
+<!-- Modal: novo canal (não-admin) -->
+<div class="overlay" id="modal-new-channel" onclick="if(event.target===this)closeModal('modal-new-channel')">
+  <div class="modal">
+    <h2>📡 Cadastrar Novo Canal</h2>
+    <label>Nome do canal</label>
+    <input type="text" id="nc-name" placeholder="Ex: Meu Canal de Documentos" />
+    <label>URL do Cloudflare Worker</label>
+    <input type="text" id="nc-proxy" placeholder="https://meu-worker.usuario.workers.dev" autocorrect="off" autocapitalize="none" spellcheck="false" />
+    <label>Bot Token</label>
+    <input type="password" id="nc-token" placeholder="123456:ABC-DEF..." />
+    <label>Chat ID</label>
+    <input type="text" id="nc-chatid" placeholder="-1001234567890" autocorrect="off" autocapitalize="none" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-new-channel')">Cancelar</button>
+      <button class="btn-confirm" onclick="saveNewChannel()">Salvar Canal</button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- COMO FUNCIONA -->
-<section>
-  <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">Como funciona</div>
-      <h2>Você só precisa fazer 2 coisas</h2>
-      <p>Cuidamos de toda a parte técnica para você começar a usar.</p>
-    </div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <div><h3>Crie um canal privado no Telegram</h3><p>Leva 30 segundos — só precisa dar um nome ao canal.</p></div>
+<!-- Modal: nova cobrança -->
+<div class="overlay" id="modal-payment" onclick="if(event.target===this)closeModal('modal-payment')">
+  <div class="modal">
+    <h2>💳 Nova Cobrança</h2>
+    <div class="form-row">
+      <div>
+        <label>E-mail do usuário</label>
+        <input type="email" id="pay-email" placeholder="usuario@email.com" />
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <div><h3>Adicione nosso suporte como administrador</h3><p>Fazemos toda a configuração técnica por você, sem complicação.</p></div>
-      </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <div><h3>Pronto — seu drive está ativo</h3><p>Acesse pelo app, envie seus arquivos e organize do seu jeito.</p></div>
+      <div>
+        <label>Plano</label>
+        <select id="pay-plan" onchange="onPayPlanChange()">
+          <option value="basic">Básico — R$ 29,90</option>
+          <option value="pro">Profissional — R$ 49,90</option>
+          <option value="premium">Premium — R$ 99,90</option>
+        </select>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- PLANOS -->
-<section id="planos">
-  <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">Planos</div>
-      <h2>Escolha o tamanho da sua operação</h2>
-      <p>Armazenamento ilimitado em todos os planos — a diferença é o número de canais.</p>
+    <div class="form-row">
+      <div>
+        <label>Forma de pagamento</label>
+        <select id="pay-type">
+          <option value="PIX">PIX</option>
+          <option value="CREDIT_CARD">Cartão de Crédito</option>
+          <option value="BOLETO">Boleto</option>
+        </select>
+      </div>
+      <div>
+        <label>Valor (R$)</label>
+        <input type="number" id="pay-amount" value="29.90" step="0.01" min="0" />
+      </div>
     </div>
-    <div class="plans-grid">
-
-      <div class="plan-card">
-        <div class="plan-icon">🥉</div>
-        <div class="plan-name">Básico</div>
-        <div class="plan-price">R$ 29,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
-        <ul class="plan-list">
-          <li>1 canal Telegram</li>
-          <li>PDFs e Mídias</li>
-          <li>App instalável</li>
-          <li>Suporte via WhatsApp</li>
-        </ul>
-        <a href="https://telegdrive.vercel.app/?signup=true" class="plan-btn">Escolher Básico</a>
-      </div>
-
-      <div class="plan-card featured">
-        <div class="plan-badge">Mais popular</div>
-        <div class="plan-icon">🥈</div>
-        <div class="plan-name">Profissional</div>
-        <div class="plan-price">R$ 49,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
-        <ul class="plan-list">
-          <li>3 canais Telegram</li>
-          <li>PDFs e Mídias</li>
-          <li>App instalável</li>
-          <li>Suporte via WhatsApp</li>
-        </ul>
-        <a href="https://telegdrive.vercel.app/?signup=true" class="plan-btn">Escolher Profissional</a>
-      </div>
-
-      <div class="plan-card">
-        <div class="plan-icon">🥇</div>
-        <div class="plan-name">Premium</div>
-        <div class="plan-price">R$ 99,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
-        <ul class="plan-list">
-          <li>Canais ilimitados</li>
-          <li>PDFs e Mídias</li>
-          <li>App instalável</li>
-          <li>Suporte prioritário</li>
-        </ul>
-        <a href="https://telegdrive.vercel.app/?signup=true" class="plan-btn">Escolher Premium</a>
-      </div>
-
+    <label>Vencimento</label>
+    <input type="date" id="pay-due" />
+    <label>Chave PIX (opcional)</label>
+    <input type="text" id="pay-pix-key" placeholder="email, CPF ou chave aleatória" />
+    <label>QR Code PIX (URL, opcional)</label>
+    <input type="text" id="pay-pix-qr" placeholder="https://..." />
+    <label>Link da fatura (opcional)</label>
+    <input type="text" id="pay-invoice" placeholder="https://..." />
+    <label>Observações</label>
+    <input type="text" id="pay-notes" placeholder="Ex: Renovação mensal..." />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-payment')">Cancelar</button>
+      <button class="btn-confirm" onclick="saveNewPayment()">Registrar cobrança</button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- FAQ -->
-<section>
-  <div class="container">
-    <div class="section-head">
-      <div class="section-eyebrow">Dúvidas</div>
-      <h2>Perguntas frequentes</h2>
-    </div>
-    <div class="faq-list" id="faq-list">
-      <div class="faq-item">
-        <div class="faq-q">Meus arquivos ficam realmente seguros? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>Sim. Tudo fica no seu próprio canal privado do Telegram — você é o titular dos dados, não nós. O app apenas organiza e exibe o que já está no seu canal.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Preciso entender de tecnologia para configurar? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>Não. Você só precisa criar um canal privado no Telegram e nos adicionar como administrador. Cuidamos de toda a parte técnica.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">O armazenamento é realmente ilimitado? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>Sim, em todos os planos. Como os arquivos ficam hospedados no Telegram, não há limite de espaço — a diferença entre planos é o número de canais que você pode gerenciar.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Posso cancelar quando quiser? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>Sim, sem fidelidade. Seus arquivos continuam no seu Telegram mesmo se cancelar a assinatura do app.</p></div>
-      </div>
-      <div class="faq-item">
-        <div class="faq-q">Quais formas de pagamento vocês aceitam? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>PIX (aprovação imediata) e Cartão de Crédito (aprovação em minutos), processados com segurança via Asaas.</p></div>
-      </div>
+<!-- Modal: instrução (novo/editar) -->
+<div class="overlay" id="modal-instruction" onclick="if(event.target===this)closeModal('modal-instruction')">
+  <div class="modal">
+    <h2 id="instruction-title">📚 Novo material</h2>
+    <label>Tipo</label>
+    <select id="inst-type">
+      <option value="video">🎬 Vídeo (YouTube)</option>
+      <option value="pdf">📄 PDF</option>
+      <option value="text">📝 Texto</option>
+    </select>
+    <label>Título</label>
+    <input type="text" id="inst-title" placeholder="Ex: Como criar seu Canal no Telegram" />
+    <label id="inst-content-label">URL do vídeo (YouTube)</label>
+    <input type="text" id="inst-content" placeholder="https://youtube.com/watch?v=..." />
+    <label>Thumbnail (URL da imagem, opcional)</label>
+    <input type="text" id="inst-thumbnail" placeholder="https://..." />
+    <label>Ordem de exibição</label>
+    <input type="number" id="inst-order" value="0" min="0" />
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-instruction')">Cancelar</button>
+      <button class="btn-confirm" onclick="saveInstruction()">Salvar</button>
     </div>
   </div>
-</section>
+</div>
 
-<!-- CTA FINAL -->
-<section class="final-cta">
-  <div class="container">
-    <h2>Pronto para ter espaço infinito?</h2>
-    <p>Comece agora e tenha seu drive ativo ainda hoje.</p>
-    <a href="https://telegdrive.vercel.app/?signup=true" class="btn-primary">🚀 Quero Armazenamento Ilimitado</a>
+<!-- Modal: alterar plano do usuário -->
+<div class="overlay" id="modal-plan" onclick="if(event.target===this)closeModal('modal-plan')">
+  <div class="modal">
+    <h2>📋 Alterar Plano</h2>
+    <p id="plan-user-email" style="font-size:13px;color:var(--text2);margin-bottom:12px;"></p>
+    <label>Tipo de acesso</label>
+    <select id="plan-user-type">
+      <option value="shared">Compartilhado (setup assistido pelo admin)</option>
+      <option value="individual">Individual (usuário gerencia próprias credenciais)</option>
+    </select>
+    <label>Plano</label>
+    <select id="plan-select">
+      <option value="basic">Básico — 1 canal — R$ 29,90/mês</option>
+      <option value="pro">Profissional — 3 canais — R$ 49,90/mês</option>
+      <option value="premium">Premium — Ilimitado — R$ 99,90/mês</option>
+    </select>
+    <label>Vencimento da assinatura</label>
+    <input type="date" id="plan-expiry" />
+
+    <label style="margin-top:8px;">Canais vinculados a este usuário</label>
+    <div id="plan-channels-list" style="background:var(--surface2);border:1px solid var(--border);border-radius:var(--radius-sm);padding:10px;margin-bottom:12px;max-height:160px;overflow-y:auto;font-size:13px;">
+      <span style="color:var(--text3);">Carregando...</span>
+    </div>
+
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeModal('modal-plan')">Cancelar</button>
+      <button class="btn-confirm" onclick="confirmPlanChange()">Salvar</button>
+    </div>
   </div>
-</section>
+</div>
 
-<footer>
-  <div class="footer-content">
-    <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte Técnico</span>
-    <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
-      <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-      WhatsApp: 88 9 9401-4262
+<!-- Popup: assinatura vencida/expirando -->
+<div class="overlay" id="popup-expiry" style="z-index:300;">
+  <div class="modal" style="text-align:center;max-width:380px;">
+    <div style="font-size:48px;margin-bottom:12px;" id="expiry-icon">⚠️</div>
+    <h2 id="expiry-title">Assinatura Vencida</h2>
+    <p id="expiry-msg" style="font-size:14px;color:var(--text2);margin:12px 0;line-height:1.6;"></p>
+    <a href="https://wa.me/5588994014262" target="_blank" rel="noopener"
+      style="display:inline-flex;align-items:center;gap:8px;background:#22c55e;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;margin-bottom:12px;">
+      <svg style="width:18px;height:18px;fill:white;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+      Falar com Suporte
     </a>
+    <br/>
+    <button id="expiry-continue-btn" class="btn-cancel" style="display:none;margin-top:8px;" onclick="document.getElementById('popup-expiry').classList.remove('open')">Continuar mesmo assim</button>
   </div>
-</footer>
+</div>
 
-<script>
-document.querySelectorAll('.faq-q').forEach(q => {
-  q.addEventListener('click', () => {
-    const item = q.parentElement;
-    document.querySelectorAll('.faq-item').forEach(i => { if(i!==item) i.classList.remove('open'); });
-    item.classList.toggle('open');
-  });
-});
-</script>
+<!-- Seção de Instruções (visível para usuários logados) -->
+<div id="page-instructions" class="app-layout" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-logo">📚</div>
+    <div><div class="topbar-title">TeleDrive</div><div class="topbar-sub">Central de Instruções</div></div>
+    <div class="topbar-right">
+      <button class="btn-topbar" onclick="closeInstructions()">← Voltar</button>
+      <button class="btn-topbar" onclick="doLogout()">🚪 <span class="btn-text">Sair</span></button>
+    </div>
+  </header>
+  <main class="main">
+    <div id="instructions-grid" class="instructions-grid"></div>
+  </main>
+  <footer>
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
 
+<!-- ── MINHA ASSINATURA ────────────────────────────────────────── -->
+<div id="page-assinatura" class="app-layout" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-logo">💳</div>
+    <div><div class="topbar-title">TeleDrive</div><div class="topbar-sub">Minha Assinatura</div></div>
+    <div class="topbar-right">
+      <button class="btn-topbar" onclick="closeMinhaAssinatura()">← Voltar</button>
+      <button class="btn-topbar" onclick="doLogout()">🚪 <span class="btn-text">Sair</span></button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Card do plano atual (só aparece se já tem plano) -->
+    <div id="assinatura-plano-card" class="assinatura-card" style="margin-bottom:1rem;"></div>
+
+    <!-- Cards de planos (aparece quando não tem plano ou quando está na tela de escolha) -->
+    <div id="assinatura-planos-section">
+      <div class="card-title" style="text-align:center;font-size:18px;margin-bottom:1.25rem;">Escolha seu plano</div>
+      <div class="checkout-plans">
+
+        <div class="checkout-plan" onclick="selectPlan('basic')" id="plan-card-basic">
+          <div class="checkout-plan-icon">🥉</div>
+          <div class="checkout-plan-name">Básico</div>
+          <div class="checkout-plan-price">R$ 29,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ 1 canal Telegram</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte via WhatsApp</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+        <div class="checkout-plan checkout-plan-featured" onclick="selectPlan('pro')" id="plan-card-pro">
+          <div class="checkout-plan-badge">Mais popular</div>
+          <div class="checkout-plan-icon">🥈</div>
+          <div class="checkout-plan-name">Profissional</div>
+          <div class="checkout-plan-price">R$ 49,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ 3 canais Telegram</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte via WhatsApp</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+        <div class="checkout-plan" onclick="selectPlan('premium')" id="plan-card-premium">
+          <div class="checkout-plan-icon">🥇</div>
+          <div class="checkout-plan-name">Premium</div>
+          <div class="checkout-plan-price">R$ 99,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ Canais ilimitados</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte prioritário</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Histórico de cobranças -->
+    <div class="card" style="margin-top:1rem;">
+      <div class="card-title">📋 Histórico de Cobranças</div>
+      <div id="assinatura-historico">
+        <div style="text-align:center;padding:2rem;color:var(--text3);">⏳ Carregando...</div>
+      </div>
+    </div>
+
+    <!-- Contato suporte -->
+    <div class="card" style="margin-top:1rem;text-align:center;background:var(--surface2);">
+      <p style="font-size:13px;color:var(--text2);margin-bottom:12px;">
+        Dúvidas sobre sua assinatura? Fale com o suporte:
+      </p>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener"
+        style="display:inline-flex;align-items:center;gap:8px;background:#22c55e;color:white;padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:14px;">
+        <svg style="width:18px;height:18px;fill:white;" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: 88 9 9401-4262
+      </a>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
+
+<!-- ── CHECKOUT ─────────────────────────────────────────────────── -->
+<div id="page-checkout" class="app-layout" style="display:none;">
+  <header class="topbar">
+    <div class="topbar-logo">💳</div>
+    <div><div class="topbar-title">TeleDrive</div><div class="topbar-sub">Assinar Plano</div></div>
+    <div class="topbar-right">
+      <button class="btn-topbar" onclick="closeCheckout()">← Voltar</button>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <!-- Step 1: Escolher plano -->
+    <div id="checkout-step-1">
+      <div class="card-title" style="text-align:center;font-size:20px;margin-bottom:1.5rem;">Escolha seu plano</div>
+      <div class="checkout-plans">
+
+        <div class="checkout-plan" onclick="selectPlan('basic')" id="plan-card-basic">
+          <div class="checkout-plan-icon">🥉</div>
+          <div class="checkout-plan-name">Básico</div>
+          <div class="checkout-plan-price">R$ 29,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ 1 canal Telegram</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte via WhatsApp</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+        <div class="checkout-plan checkout-plan-featured" onclick="selectPlan('pro')" id="plan-card-pro">
+          <div class="checkout-plan-badge">Mais popular</div>
+          <div class="checkout-plan-icon">🥈</div>
+          <div class="checkout-plan-name">Profissional</div>
+          <div class="checkout-plan-price">R$ 49,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ 3 canais Telegram</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte via WhatsApp</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+        <div class="checkout-plan" onclick="selectPlan('premium')" id="plan-card-premium">
+          <div class="checkout-plan-icon">🥇</div>
+          <div class="checkout-plan-name">Premium</div>
+          <div class="checkout-plan-price">R$ 99,90<span>/mês</span></div>
+          <ul class="checkout-plan-features">
+            <li>✅ Canais ilimitados</li>
+            <li>✅ Armazenamento ilimitado</li>
+            <li>✅ PDFs e Mídias</li>
+            <li>✅ Suporte prioritário</li>
+          </ul>
+          <button class="checkout-plan-btn">Selecionar</button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Step 2: Dados e forma de pagamento -->
+    <div id="checkout-step-2" style="display:none;">
+      <div class="checkout-form-wrap">
+
+        <!-- Resumo do plano -->
+        <div class="checkout-plan-summary">
+          <div class="checkout-plan-summary-info">
+            <span style="font-size:13px;color:var(--text2);">Plano selecionado</span>
+            <span id="checkout-plan-label" style="font-size:16px;font-weight:700;color:var(--text);"></span>
+          </div>
+          <div style="text-align:right;">
+            <span id="checkout-plan-price" style="font-size:24px;font-weight:800;color:var(--primary);"></span>
+            <span style="font-size:12px;color:var(--text2);display:block;">por mês</span>
+          </div>
+          <button onclick="backToPlans()" class="checkout-change-plan">Trocar plano</button>
+        </div>
+
+        <!-- Seção: Forma de pagamento -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <span class="checkout-step-num">1</span>
+            Escolha a forma de pagamento
+          </div>
+          <div class="payment-methods">
+            <div class="payment-method active" id="method-PIX" onclick="selectMethod('PIX')">
+              <span style="font-size:32px;">🏦</span>
+              <span class="pm-name">PIX</span>
+              <span class="pm-desc">Aprovação imediata</span>
+              <span class="pm-tag pm-tag-green">Recomendado</span>
+            </div>
+            <div class="payment-method" id="method-CREDIT_CARD" onclick="selectMethod('CREDIT_CARD')">
+              <span style="font-size:32px;">💳</span>
+              <span class="pm-name">Cartão de Crédito</span>
+              <span class="pm-desc">Aprovação em minutos</span>
+              <span class="pm-tag pm-tag-blue">Parcelável</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Seção: Dados pessoais -->
+        <div class="checkout-section">
+          <div class="checkout-section-title">
+            <span class="checkout-step-num">2</span>
+            Seus dados
+          </div>
+          <div class="checkout-fields">
+            <div class="checkout-field checkout-field-full">
+              <label>Nome completo <span style="color:var(--danger);">*</span></label>
+              <input type="text" id="checkout-name" placeholder="Ex: João da Silva" autocomplete="name" />
+            </div>
+            <div class="checkout-field">
+              <label>CPF ou CNPJ <span style="color:var(--danger);">*</span></label>
+              <input type="text" id="checkout-cpf" placeholder="000.000.000-00" autocomplete="off"
+                oninput="formatCpfCnpj(this)" maxlength="18" />
+            </div>
+            <div class="checkout-field">
+              <label>Telefone <span style="font-size:11px;color:var(--text3);">(opcional)</span></label>
+              <input type="tel" id="checkout-phone" placeholder="(88) 9 9999-9999" autocomplete="tel"
+                oninput="formatPhone(this)" maxlength="16" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Erro -->
+        <div id="checkout-error" class="login-error"></div>
+
+        <!-- Botão finalizar -->
+        <button class="btn-login" id="btn-checkout-pay" onclick="processCheckout()">
+          🔒 Finalizar pagamento com segurança
+        </button>
+        <p style="text-align:center;font-size:11px;color:var(--text3);margin-top:10px;">
+          🔒 Pagamento seguro processado pelo Asaas
+        </p>
+      </div>
+    </div>
+
+    <!-- Step 3: PIX gerado -->
+    <div id="checkout-step-3-pix" style="display:none;">
+      <div class="card" style="max-width:420px;margin:0 auto;text-align:center;">
+        <div style="font-size:48px;margin-bottom:12px;">🏦</div>
+        <h2 style="margin-bottom:8px;">Pague via PIX</h2>
+        <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">Escaneie o QR Code ou copie a chave PIX abaixo</p>
+
+        <div id="pix-qr-wrap" style="margin:0 auto 20px;max-width:220px;">
+          <img id="pix-qr-img" src="" alt="QR Code PIX" style="width:100%;border-radius:8px;border:4px solid var(--border);" />
+        </div>
+
+        <div style="background:var(--surface2);border-radius:var(--radius);padding:12px;margin-bottom:16px;word-break:break-all;font-size:12px;color:var(--text2);font-family:monospace;" id="pix-key-display"></div>
+
+        <button class="btn-login" onclick="copyPixFromCheckout()" style="background:#16a34a;margin-bottom:12px;">
+          📋 Copiar chave PIX
+        </button>
+
+        <p style="font-size:12px;color:var(--text3);">Após o pagamento, seu plano será ativado automaticamente em até 1 minuto.</p>
+
+        <button class="btn-cancel" onclick="closeCheckout()" style="margin-top:12px;width:100%;padding:10px;">
+          Fechar e aguardar confirmação
+        </button>
+      </div>
+    </div>
+
+    <!-- Step 3: Cartão - link da fatura -->
+    <div id="checkout-step-3-card" style="display:none;">
+      <div class="card" style="max-width:420px;margin:0 auto;text-align:center;">
+        <div style="font-size:48px;margin-bottom:12px;">💳</div>
+        <h2 style="margin-bottom:8px;">Pagamento com Cartão</h2>
+        <p style="color:var(--text2);font-size:13px;margin-bottom:20px;">Clique no botão abaixo para pagar de forma segura</p>
+        <a id="card-invoice-link" href="#" target="_blank" rel="noopener" class="btn-login" style="display:inline-block;margin-bottom:16px;">
+          💳 Pagar agora
+        </a>
+        <p style="font-size:12px;color:var(--text3);">Após o pagamento, seu plano será ativado automaticamente em até 5 minutos.</p>
+        <button class="btn-cancel" onclick="closeCheckout()" style="margin-top:12px;width:100%;padding:10px;">
+          Fechar e aguardar confirmação
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <span>Copyright &copy; 2026 | <strong>Zaqueu Fernandes</strong> | Suporte T&eacute;cnico</span>
+      <a href="https://wa.me/5588994014262" target="_blank" rel="noopener" class="footer-wa">
+        <svg class="wa-icon" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp: <strong>88 9 9401-4262</strong>
+      </a>
+    </div>
+  </footer>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="/js/store.js"></script>
+<script src="/js/supabase.js"></script>
+<script src="/js/telegram.js"></script>
+<script src="/js/media.js"></script>
+<script src="/js/app.js"></script>
 </body>
 </html>
