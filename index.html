@@ -345,9 +345,9 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
 <header class="hero">
   <div class="hero-inner">
     <div>
-      <div class="eyebrow"><span class="dot"></span> Armazenamento que nunca enche</div>
-      <h1>Suas Mídias com <span class="grad">espaço infinito</span> → Fotos, Vídeos e Documentos, hospedados direto na nuvem do Telegram</h1>
-      <p>Pare de pagar por GB. O TeleDrive transforma seu próprio Telegram em um drive profissional — organizado em pastas, com galeria de mídias e acesso de qualquer lugar.</p>
+      <div class="eyebrow"><span class="dot"></span> Câmera integrada • Armazenamento ilimitado</div>
+      <h1>Libere a memória do celular e armazene <span class="grad">sem limite de quantidade</span> na nuvem do Telegram</h1>
+      <p>Tire fotos direto no app, envie suas músicas e documentos — tudo armazenado na nuvem do seu Telegram.<br><br>Nunca mais fique sem registrar os melhores momentos e memórias por falta de espaço no celular. Tire suas fotos e armazene direto na nuvem, sem ocupar nada no seu dispositivo.<br><br><span style="color:rgba(255,255,255,.6);font-size:14px;">Ideal para fotos, músicas MP3 e PDFs que naturalmente ficam abaixo de 20MB.</span></p>
       <div class="hero-ctas">
         <a href="https://telegdrive.vercel.app/?signup=true" class="btn-primary">
           🚀 Quero Armazenamento Ilimitado
@@ -355,9 +355,11 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <a href="#planos" class="btn-ghost">Ver planos</a>
       </div>
       <div class="hero-trust">
-        <span>✅ Sem limite de espaço</span>
-        <span>✅ PIX ou Cartão</span>
-        <span>✅ Ativação em minutos</span>
+        <span>📷 Câmera integrada</span>
+        <span>🖼️ Álbuns de Fotos</span>
+        <span>🎵 Coletâneas MP3</span>
+        <span>📄 Documentos PDF</span>
+        <span>📦 Até 20MB por arquivo</span>
       </div>
     </div>
     <div class="hero-visual">
@@ -394,27 +396,27 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
 <section>
   <div class="container">
     <div class="section-head">
-      <div class="section-eyebrow">O problema</div>
-      <h2>Armazenamento em nuvem tradicional fica caro rápido</h2>
-      <p>Você paga por gigabyte, mesmo gigabytes que talvez nunca use.</p>
+      <div class="section-eyebrow">Por que o TeleDrive?</div>
+      <h2>Chega de celular lotado e nuvem que cobra por GB</h2>
+      <p>Dois problemas reais que o TeleDrive resolve com uma única assinatura acessível.</p>
     </div>
     <div class="compare">
       <div class="compare-card bad">
-        <h3>☁️ Nuvem tradicional</h3>
+        <h3>😣 Sem o TeleDrive</h3>
         <ul class="compare-list">
-          <li>Mensalidade cresce conforme seus arquivos</li>
-          <li>Limite de espaço, mesmo nos planos pagos</li>
-          <li>Cobrança extra por cada GB adicional</li>
-          <li>Você nunca é dono real da infraestrutura</li>
+          <li>Celular cheio bloqueando novas fotos</li>
+          <li>Nuvem cara cobrando por cada GB extra</li>
+          <li>Fotos e músicas espalhadas sem organização</li>
+          <li>Risco de perder tudo se o celular quebrar</li>
         </ul>
       </div>
       <div class="compare-card good">
-        <h3>✈️ TeleDrive</h3>
+        <h3>✈️ Com o TeleDrive</h3>
         <ul class="compare-list">
-          <li>Mensalidade fixa, independente do volume</li>
-          <li>Armazenamento sem limite, em todos os planos</li>
-          <li>Telegram já é gratuito e ilimitado</li>
-          <li>Seu canal, seus dados, sua titularidade</li>
+          <li>Tire fotos direto no app — vão pro drive, não pro celular</li>
+          <li>Quantidade ilimitada de arquivos de até 20MB cada</li>
+          <li>Ideal para fotos, músicas e PDFs que cabem em 20MB</li>
+          <li>Mensalidade fixa — sem surpresa na fatura</li>
         </ul>
       </div>
     </div>
@@ -425,10 +427,10 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
 <section class="demo-section">
   <div class="container">
     <div class="demo-box">
-      <div class="demo-label">Espaço usado no seu plano</div>
-      <div class="demo-counter">∞</div>
+      <div class="demo-label">Quantidade de arquivos no seu plano</div>
+      <div class="demo-counter" id="demo-file-count">0</div>
       <div class="demo-bar"><div class="demo-bar-fill"></div></div>
-      <div class="demo-note">Não importa quantos arquivos você envie — sempre vai caber mais um.</div>
+      <div class="demo-note">Envie quantos arquivos quiser — fotos, músicas e PDFs. O limite é só por arquivo (20MB), não por quantidade.</div>
     </div>
   </div>
 </section>
@@ -444,7 +446,7 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
       <div class="feature-card">
         <div class="feature-icon">📁</div>
         <h3>Pastas e subpastas</h3>
-        <p>Organize seus PDFs como quiser, com renomear, mover e excluir a qualquer momento.</p>
+        <p>Organize suas fotos, músicas e PDFs em pastas, com renomear, mover e excluir quando quiser.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🖼️</div>
@@ -452,9 +454,9 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <p>Fotos e vídeos em álbuns separados, com visualização em tela cheia e navegação por setas.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">📲</div>
-        <h3>App instalável (PWA)</h3>
-        <p>Instale no celular ou computador como um aplicativo nativo, sem precisar de loja de apps.</p>
+        <div class="feature-icon">📷</div>
+        <h3>Câmera integrada</h3>
+        <p>Tire fotos direto no TeleDrive — a imagem vai para o seu drive sem ocupar espaço no celular.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🔒</div>
@@ -462,14 +464,103 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <p>Tudo fica no seu próprio canal do Telegram — você é o dono real da infraestrutura.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>Acesso compartilhado</h3>
-        <p>Convide sua equipe para visualizar arquivos, com controle total de quem pode editar.</p>
+        <div class="feature-icon">🎵</div>
+        <h3>Coleção de músicas</h3>
+        <p>Guarde suas músicas favoritas no drive e acesse de qualquer dispositivo, a qualquer hora.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">⚡</div>
         <h3>Setup assistido</h3>
         <p>Nós cuidamos de toda a configuração técnica para você — basta criar o canal e nos adicionar.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- LIBERE A MEMÓRIA DO CELULAR -->
+<section style="background:var(--bg2);border-top:1px solid var(--border);border-bottom:1px solid var(--border);">
+  <div class="container">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;max-width:900px;margin:0 auto;">
+      <div>
+        <div class="section-eyebrow" style="text-align:left;">📱 Libere seu celular</div>
+        <h2 style="text-align:left;font-size:clamp(24px,3vw,34px);margin-bottom:16px;">
+          Tire fotos direto no app — sem ocupar 1 byte do celular
+        </h2>
+        <p style="color:var(--text2);font-size:15px;line-height:1.7;margin-bottom:20px;">
+          A câmera integrada do TeleDrive captura a foto e envia direto para o seu drive. A imagem <strong style="color:var(--text);">não fica salva no celular</strong> — só no seu canal privado do Telegram.
+        </p>
+        <div style="display:flex;flex-direction:column;gap:12px;">
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:20px;flex-shrink:0;">📷</span>
+            <p style="font-size:14px;color:var(--text2);margin:0;line-height:1.5;"><strong style="color:var(--text);">Câmera integrada</strong> — abre no app, tira a foto, já está no drive</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:20px;flex-shrink:0;">🖼️</span>
+            <p style="font-size:14px;color:var(--text2);margin:0;line-height:1.5;"><strong style="color:var(--text);">Galeria do celular</strong> — selecione fotos existentes e transfira para o drive</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:20px;flex-shrink:0;">🎵</span>
+            <p style="font-size:14px;color:var(--text2);margin:0;line-height:1.5;"><strong style="color:var(--text);">Músicas e áudios</strong> — coleção pessoal acessível de qualquer dispositivo</p>
+          </div>
+          <div style="display:flex;align-items:flex-start;gap:12px;">
+            <span style="font-size:20px;flex-shrink:0;">📄</span>
+            <p style="font-size:14px;color:var(--text2);margin:0;line-height:1.5;"><strong style="color:var(--text);">Documentos PDF</strong> — contratos, notas, comprovantes organizados em pastas</p>
+          </div>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <!-- Card visual de estatísticas -->
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;">
+          <div style="font-size:12px;font-weight:700;color:var(--text3);text-transform:uppercase;letter-spacing:.06em;margin-bottom:16px;">Tamanho médio dos arquivos</div>
+          <div style="display:flex;flex-direction:column;gap:10px;">
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text2);">📷 Foto de celular</span>
+                <span style="color:var(--green2);font-weight:700;">2–8 MB</span>
+              </div>
+              <div style="height:6px;background:var(--surface2);border-radius:3px;">
+                <div style="width:40%;height:100%;background:var(--green2);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text2);">🎵 Música MP3</span>
+                <span style="color:var(--green2);font-weight:700;">3–8 MB</span>
+              </div>
+              <div style="height:6px;background:var(--surface2);border-radius:3px;">
+                <div style="width:40%;height:100%;background:var(--green2);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text2);">📄 Documento PDF</span>
+                <span style="color:var(--green2);font-weight:700;">1–10 MB</span>
+              </div>
+              <div style="height:6px;background:var(--surface2);border-radius:3px;">
+                <div style="width:50%;height:100%;background:var(--green2);border-radius:3px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:4px;">
+                <span style="color:var(--text2);">🎬 Vídeo curto (30s)</span>
+                <span style="color:#f59e0b;font-weight:700;">10–20 MB</span>
+              </div>
+              <div style="height:6px;background:var(--surface2);border-radius:3px;">
+                <div style="width:75%;height:100%;background:#f59e0b;border-radius:3px;"></div>
+              </div>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);
+            font-size:12px;color:var(--text3);text-align:center;">
+            Limite por arquivo: <strong style="color:var(--accent2);">20MB</strong> — todos os tipos acima se encaixam com folga
+          </div>
+        </div>
+        <div style="background:linear-gradient(135deg,rgba(42,171,238,.1),rgba(22,163,74,.08));
+          border:1px solid rgba(42,171,238,.2);border-radius:12px;padding:16px;text-align:center;">
+          <div style="font-size:28px;margin-bottom:6px;">∞</div>
+          <div style="font-size:13px;font-weight:700;color:var(--text);">Quantidade ilimitada</div>
+          <div style="font-size:12px;color:var(--text3);margin-top:4px;">Envie quantos arquivos quiser — sem cota, sem limite de uso</div>
+        </div>
       </div>
     </div>
   </div>
@@ -505,8 +596,8 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
   <div class="container">
     <div class="section-head">
       <div class="section-eyebrow">Planos</div>
-      <h2>Escolha o tamanho da sua operação</h2>
-      <p>Armazenamento ilimitado em todos os planos — a diferença é o número de canais.</p>
+      <h2>Escolha seu plano</h2>
+      <p>Quantidade <strong>ilimitada de arquivos</strong> em todos os planos — fotos, músicas e PDFs à vontade. A diferença é o número de canais Telegram.</p>
     </div>
     <div class="plans-grid">
 
@@ -514,7 +605,7 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <div class="plan-icon">🥉</div>
         <div class="plan-name">Básico</div>
         <div class="plan-price">R$ 29,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
+        <div class="plan-sub">Arquivos ilimitados • até 20MB cada</div>
         <ul class="plan-list">
           <li>1 canal Telegram</li>
           <li>PDFs e Mídias</li>
@@ -529,7 +620,7 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <div class="plan-icon">🥈</div>
         <div class="plan-name">Profissional</div>
         <div class="plan-price">R$ 49,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
+        <div class="plan-sub">Arquivos ilimitados • até 20MB cada</div>
         <ul class="plan-list">
           <li>3 canais Telegram</li>
           <li>PDFs e Mídias</li>
@@ -543,7 +634,7 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <div class="plan-icon">🥇</div>
         <div class="plan-name">Premium</div>
         <div class="plan-price">R$ 99,90<span>/mês</span></div>
-        <div class="plan-sub">Armazenamento ilimitado</div>
+        <div class="plan-sub">Arquivos ilimitados • até 20MB cada</div>
         <ul class="plan-list">
           <li>Canais ilimitados</li>
           <li>PDFs e Mídias</li>
@@ -570,12 +661,28 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
         <div class="faq-a"><p>Sim. Tudo fica no seu próprio canal privado do Telegram — você é o titular dos dados, não nós. O app apenas organiza e exibe o que já está no seu canal.</p></div>
       </div>
       <div class="faq-item">
+        <div class="faq-q">Como funciona a câmera integrada? <span class="chev">⌄</span></div>
+        <div class="faq-a"><p>Dentro do app há um botão de câmera que abre diretamente a câmera do seu celular. Ao tirar a foto, ela é enviada automaticamente para o seu drive no Telegram — sem salvar na galeria do celular, liberando memória do dispositivo.</p></div>
+      </div>
+      <div class="faq-item">
         <div class="faq-q">Preciso entender de tecnologia para configurar? <span class="chev">⌄</span></div>
         <div class="faq-a"><p>Não. Você só precisa criar um canal privado no Telegram e nos adicionar como administrador. Cuidamos de toda a parte técnica.</p></div>
       </div>
       <div class="faq-item">
-        <div class="faq-q">O armazenamento é realmente ilimitado? <span class="chev">⌄</span></div>
-        <div class="faq-a"><p>Sim, em todos os planos. Como os arquivos ficam hospedados no Telegram, não há limite de espaço — a diferença entre planos é o número de canais que você pode gerenciar.</p></div>
+        <div class="faq-q">O armazenamento é ilimitado mesmo? Qual o limite de arquivos? <span class="chev">⌄</span></div>
+        <div class="faq-a"><p>A <strong>quantidade</strong> de arquivos é ilimitada — você pode enviar milhares de fotos, músicas e PDFs sem se preocupar. Cada arquivo individual pode ter até <strong>20MB</strong>, o que cobre 100% das fotos tiradas por celular, músicas MP3 e documentos PDF do dia a dia.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Para que tipos de arquivo o TeleDrive é ideal? <span class="chev">⌄</span></div>
+        <div class="faq-a"><p>O TeleDrive é perfeito para <strong>fotos</strong> (uma foto de celular tem entre 2MB e 8MB), <strong>músicas MP3</strong> (uma música tem entre 3MB e 8MB), <strong>documentos PDF</strong> (raramente passam de 10MB) e <strong>gravações de áudio</strong>. Esses tipos cabem facilmente no limite de 20MB por arquivo.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">Como posso liberar memória do meu celular? <span class="chev">⌄</span></div>
+        <div class="faq-a"><p>Use a câmera integrada do TeleDrive para tirar fotos diretamente — a imagem vai para o seu drive sem salvar no celular. Para fotos já existentes, selecione da galeria e envie para o TeleDrive. Depois de confirmar que estão salvas, pode apagar do celular com segurança.</p></div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q">O que são os canais adicionais? Sou obrigado a contratar? <span class="chev">⌄</span></div>
+        <div class="faq-a"><p>Não, os canais adicionais são totalmente opcionais. Cada plano já inclui um número de canais fixo — Básico (1), Profissional (3) e Premium (5). Se você precisar de mais canais além do incluso no seu plano, pode adicionar cada canal extra por R$ 9,99/mês. Mas se o número do plano escolhido for suficiente para você, não precisa contratar nada a mais.</p></div>
       </div>
       <div class="faq-item">
         <div class="faq-q">Posso cancelar quando quiser? <span class="chev">⌄</span></div>
@@ -592,9 +699,9 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
 <!-- CTA FINAL -->
 <section class="final-cta">
   <div class="container">
-    <h2>Pronto para ter espaço infinito?</h2>
-    <p>Comece agora e tenha seu drive ativo ainda hoje.</p>
-    <a href="https://telegdrive.vercel.app/?signup=true" class="btn-primary">🚀 Quero Armazenamento Ilimitado</a>
+    <h2>Chega de celular cheio e nuvem cara</h2>
+    <p>Comece agora — arquivos ilimitados, mensalidade fixa, sem surpresas.</p>
+    <a href="https://telegdrive.vercel.app/?signup=true" class="btn-primary">🚀 Começar agora</a>
   </div>
 </section>
 
@@ -609,6 +716,27 @@ footer{padding:40px 24px;border-top:1px solid var(--border);text-align:center;}
 </footer>
 
 <script>
+// Contador animado de arquivos
+(function() {
+  const el = document.getElementById('demo-file-count');
+  if (!el) return;
+  let count = 0;
+  const target = 2847;
+  const duration = 2500;
+  const step = target / (duration / 16);
+  const observer = new IntersectionObserver((entries) => {
+    if (entries[0].isIntersecting) {
+      const timer = setInterval(() => {
+        count = Math.min(count + step, target);
+        el.textContent = Math.round(count).toLocaleString('pt-BR');
+        if (count >= target) clearInterval(timer);
+      }, 16);
+      observer.disconnect();
+    }
+  });
+  observer.observe(el);
+})();
+
 document.querySelectorAll('.faq-q').forEach(q => {
   q.addEventListener('click', () => {
     const item = q.parentElement;
